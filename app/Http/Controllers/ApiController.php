@@ -59,7 +59,7 @@ class ApiController extends Controller
                 ]
             );
             $pdfPath = 'pdf/' . uniqid() . '.pdf';
-            $pdf->save(storage_path('app/public/' . $pdfPath));
+                        $pdf->save(storage_path('app/public/' . $pdfPath));
             return response()->json(['pdf_url' => asset('storage/' . $pdfPath), 'status' => 'true']);
         } else {
             return response()->json(['status' => 'empty']);
