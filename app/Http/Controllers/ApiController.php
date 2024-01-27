@@ -37,7 +37,7 @@ class ApiController extends Controller
             'customer_id' => 'required|integer',
         ]);
         $data = EntryMaster::where('customer_id', $request->customer_id)
-            ->whereBetween('entry_time', [$request->from_date, $request->to_date])
+            ->whereBetween('entry_time', [$request->from_date . ' 00:00:00', $request->to_date . ' 23:59:59'])
             ->with('customer')
             ->orderBy('entry_time','asc')
             ->get()
@@ -59,7 +59,7 @@ class ApiController extends Controller
                 ]
             );
             $pdfPath = 'pdf/' . uniqid() . '.pdf';
-                        $pdf->save(storage_path('app/public/' . $pdfPath));
+            $pdf->save(storage_path('app/public/' . $pdfPath));
             return response()->json(['pdf_url' => asset('storage/' . $pdfPath), 'status' => 'true']);
         } else {
             return response()->json(['status' => 'empty']);
