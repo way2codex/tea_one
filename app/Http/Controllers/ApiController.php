@@ -15,6 +15,13 @@ class ApiController extends Controller
         $customers = CustomerMaster::get();
         return response()->json($customers);
     }
+    public function store_customer(Request $request)
+    {
+        $CustomerMaster = new CustomerMaster();
+        $CustomerMaster->name = $request->name;
+        $CustomerMaster->save();
+        return response()->json($CustomerMaster);
+    }
     public function store_entry(Request $request)
     {
         $date = Carbon::now();
