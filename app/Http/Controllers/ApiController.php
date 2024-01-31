@@ -12,7 +12,7 @@ class ApiController extends Controller
 {
     public function customer_list()
     {
-        $customers = CustomerMaster::get();
+        $customers = CustomerMaster::orderBy('id','desc')->get();
         return response()->json($customers);
     }
     public function store_customer(Request $request)
