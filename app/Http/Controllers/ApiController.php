@@ -8,6 +8,7 @@ use App\Models\EntryMaster;
 use App\Models\ProductMaster;
 use Carbon\Carbon;
 use PDF;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -61,17 +62,19 @@ class ApiController extends Controller
         if (count($data) > 0) {
             $fromDate = Carbon::parse($request->from_date)->format('d-m-Y');
             $toDate = Carbon::parse($request->to_date)->format('d-m-Y');
-            $customerName = $data->first()->customer->name; // Adjust 'name' to the actual attribute in your Customer model
+            $customerName = $data->first()->customer->name; 
+            $productData = ProductMaster::get();
             $pdf = PDF::loadView(
                 'pdf.template',
                 [
                     'data' => $data,
                     'customerName' => $customerName,
+                    'productData' => $productData,
                     'fromDate' => $fromDate,
                     'toDate' => $toDate
                 ]
             );
-            $pdfPath = 'pdf/' . uniqid() . '.pdf';
+            $pdfPath = 'pdf/' . Str::slug($customerName, "_").'_pdf_'.uniqid() . '.pdf';
             $pdf->save(storage_path('app/public/' . $pdfPath));
             return response()->json(['pdf_url' => asset('storage/' . $pdfPath), 'status' => 'true']);
         } else {
