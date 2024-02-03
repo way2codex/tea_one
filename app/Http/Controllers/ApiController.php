@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CustomerMaster;
 use App\Models\EntryMaster;
+use App\Models\ProductMaster;
 use Carbon\Carbon;
 use PDF;
 
@@ -14,6 +15,11 @@ class ApiController extends Controller
     {
         $customers = CustomerMaster::orderBy('id','desc')->get();
         return response()->json($customers);
+    }
+    public function product_list()
+    {
+        $products = ProductMaster::orderBy('id','asc')->get();
+        return response()->json($products);
     }
     public function store_customer(Request $request)
     {
@@ -29,7 +35,7 @@ class ApiController extends Controller
         $EntryMaster = new EntryMaster();
         $EntryMaster->customer_id = $request->customer_id;
         $EntryMaster->entry_time = $entry_time;
-        $EntryMaster->product_id = 1;
+        $EntryMaster->product_id = $request->product_id;
         $EntryMaster->quantity = $request->quantity;
         $EntryMaster->save();
 

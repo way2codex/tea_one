@@ -46,6 +46,9 @@
                             <a class="nav-link" href="{{ route('customers.index') }}">Customer</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('products.index') }}">Product</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('entries.index') }}">Entry</a>
                         </li>
                     </ul>

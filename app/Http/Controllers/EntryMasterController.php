@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerMaster;
 use Illuminate\Http\Request;
 use App\Models\EntryMaster;
 use DataTables;
@@ -22,8 +23,11 @@ class EntryMasterController extends Controller
                             </form>';
                 })
                 ->addColumn('customer_name', function ($model) {
-                    // dd($model);
-                    return $model->customer['name'];
+                    if($model->customer != null){
+                        return $model->customer['name'];
+                    }else{
+                        return CustomerMaster::where('id',$model->customer_id)->withTrashed()->first()['name'];
+                    }
                 })
                 ->make(true);
         }
